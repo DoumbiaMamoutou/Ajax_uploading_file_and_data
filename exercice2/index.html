@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Inscription</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.4.0.min.js" integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg="crossorigin="anonymous"></script>
+</head>
+<body>
+
+	<div class="container">
+		<p class="message"></p>
+		<div class="heading">
+			<h1>INSCRIPTION</h1>
+		</div>
+		<div class="row">
+			<div class="col-lg-10">
+				<form id="contact-form" enctype="multipart/form-data">
+					<div class="row">
+						<div class="col-md-6 text-center">
+						<label for="name">Nom</label>
+						<input type="text" name="name" id="name" class="form-control" required>
+					</div>
+					<div class="col-md-6 text-center">
+						<label for="lastname">Prénom</label>
+						<input type="text" name="lastname" id="lastname" class="form-control" required>
+					</div>
+					<div class="col-md-6 text-center">
+						<label for="birth">Date de naissance</label>
+						<input type="date" name="birth" id="birth" class="form-control" required>
+					</div>
+					<div class="col-md-6 text-center">
+						<label for="contact">Contact</label>
+						<input type="phone" name="contact" id="contact" class="form-control" required>
+					</div>
+					<div class="col-md-6 text-center">
+						<label for="email">Email</label>
+						<input type="email" name="email" id="email" class="form-control" required>
+					</div>
+					<div class="col-md-6 text-center">
+						<label for="ville">Ville</label>
+						<select name="ville" id="ville" class="form-control" required>
+							<option value="Abidjan">Abidjan</option>
+							<option value="Bouake">Bouake</option>
+							<option value="Korhogo">Korhogo</option>
+							<option value="San Pedro">San Pedro</option>
+							<option value="Yamoussoukro">Yamoussoukro</option>
+						</select>
+
+					</div>
+					<div class="col-md-6 text-center">
+						<label for="commune">Commune</label>
+						<select name="commune" id="commune" class="form-control" required>
+							<option value="Cocody">Cocody</option>
+							<option value="Marcory">Marcory</option>
+							<option value="Abobo">Abobo</option>
+							<option value="Adjamé">Adjamé</option>
+							<option value="Port Bouet">Port Bouet</option>
+							<option value="Treichville">Treichville</option>
+							<option value="Koumassi">Koumassi</option>
+							<option value="Attecoube">Attecoube</option>
+							<option value="Anyama">Anyama</option>
+							<option value="Plateau">Plateau</option>
+							<option value="Yopougon">Yopougon</option>
+							<option value="Bingervile">Bingervile</option>
+						</select>
+
+					</div>
+					<div class="col-md-6 text-center">
+						<label for="school">Etablissement</label>
+						<input type="text" name="school" id="school" class="form-control" required><br>
+					</div>
+					<div class="col-md-12 text-center">
+						<label for="photo">Commentaire</label>
+						<textarea id="commentaire" name="commentaire" class="form-control"></textarea>
+					</div>
+					<div class="col-md-12 text-center">
+						<label for="photo">Photo de Profile</label>
+						<input type="file" name="photo" id="photo"class="form-control" required><br>
+					</div>
+					</div>
+					<button type="submit" name="submit" class="btn btn-primary submitBtn">VALIDER</button>
+			</form>
+			</div>
+		</div>
+	</div>
+	<script>
+		$(document).ready(function(e){
+			$('#contact-form').on('submit', function(e){
+				e.preventDefault();
+				$.ajax({
+					type: 'POST',
+					url: 'php/index.php',
+					data: new FormData(this),
+					contentType: false,
+					//cache: false,
+					processData: false,
+					beforeSend: function(){
+						$('.submitBtn').attr("disabled","disabled");
+						$('#contact-form').css("opacity", ".5");
+					},
+					success: function(msg){
+						$('.message').html('');
+						if (msg == 'ok') {
+							$('#contact-form')[0].reset();
+							$('.message').html('<span style="font-size:18px;color:#34A853">Form data submitted successfully.</span>');
+						} else {
+							$('.message').html('<span style="font-size:18px;color:#EA4335">Some problem occurred, please try again.</span>');
+						}
+						$('#contact-form').css("opacity","");
+						$('.submitBtn').removeAttr("disabled");
+					}
+				});
+			});
+			$("#photo").change(function() {
+				var photo = this.files[0];
+				var imagefile = photo.type;
+				var match = ["image/jpeg","image/png","image/jpg"];
+				if (!((imagefile == match[0]) || (imagefile == match[1]) || (imagefile == match[2]))) {
+					alert('Please select a valid file (JPEG/JPG/PNG).');
+					$('#photo').val('');
+					return false;
+				}
+			});
+		});
+	</script>
+	</body>
+</html>

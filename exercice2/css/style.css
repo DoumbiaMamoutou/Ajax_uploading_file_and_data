@@ -1,0 +1,25 @@
+#contact-form
+{
+	font-size: 20px;
+	background: #fff;
+	padding: 40px;
+	border-radius: 10px;
+	background: #dfa757;
+}
+.heading
+{
+	text-align: center;
+	margin-bottom: 60px;
+	text-transform: uppercase;
+	color: purple;
+}
+label
+{
+	font-weight: bold;
+	text-transform: uppercase;
+}
+.form-control
+{
+	height: 40px;
+	font-size: 18px;
+}
